@@ -14,7 +14,6 @@ class _HomepageState extends State<Homepage> {
   dynamic poster;
   String? body = '', hasil = '';
   String? info;
-  bool found = false;
   TextEditingController titleController = TextEditingController();
 
   @override
@@ -47,7 +46,6 @@ class _HomepageState extends State<Homepage> {
                         '${titleController.text}'));
                 var data = json.decode(response.body) as Map<dynamic, dynamic>;
                 if (response.statusCode == 200 && data['Response'] == 'True') {
-                  found = true;
                   info = 'Pencarian berhasil';
                   setState(() {
                     body = data['Search'][0]['Title'];
@@ -72,14 +70,13 @@ class _HomepageState extends State<Homepage> {
             ),
             SizedBox(
               height: 20,
-            ),  
+            ),
             ExpansionPanelList(
               expansionCallback: (int index, bool isExpanded) {
                 setState(() {
                   if (isExpanded == false) {
                     isExpanded = true;
-                  }
-                  else {
+                  } else {
                     isExpanded = false;
                   }
                 });
