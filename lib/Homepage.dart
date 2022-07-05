@@ -54,13 +54,13 @@ class _HomepageState extends State<Homepage> {
                     hasil = 'Year : ${data['Search'][0]['Year']}';
                   });
                 } else {
-                  info = 'Pencarian gagal';
+                  info = 'Judul film tidak ditemukan';
                   setState(() {
                     body = '';
                   });
                 }
               }),
-              child: Text('Get'),
+              child: Text('Cari'),
             ),
             Text(
               info!,
