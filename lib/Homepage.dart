@@ -11,8 +11,10 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  String? body = '', hasil = '', hasilLain = '';
+  dynamic poster;
+  String? body = '', hasil = '';
   String? info;
+  bool found = false;
   TextEditingController titleController = TextEditingController();
 
   @override
@@ -45,11 +47,11 @@ class _HomepageState extends State<Homepage> {
                         '${titleController.text}'));
                 var data = json.decode(response.body) as Map<dynamic, dynamic>;
                 if (response.statusCode == 200 && data['Response'] == 'True') {
+                  found = true;
                   info = 'Pencarian berhasil';
                   setState(() {
                     body = data['Search'][0]['Title'];
-                    hasilLain = data['Search'][1]['Title'];
-                    hasil = 'Hasil Teratas\t: ${body!}\nHasil Lainnya\t: $hasilLain';
+                    hasil = 'Year : ${data['Search'][0]['Year']}';
                   });
                 } else {
                   info = 'Pencarian gagal';
@@ -70,8 +72,32 @@ class _HomepageState extends State<Homepage> {
             ),
             SizedBox(
               height: 20,
+            ),  
+            ExpansionPanelList(
+              expansionCallback: (int index, bool isExpanded) {
+                setState(() {
+                  if (isExpanded == false) {
+                    isExpanded = true;
+                  }
+                  else {
+                    isExpanded = false;
+                  }
+                });
+              },
+              children: [
+                ExpansionPanel(
+                  canTapOnHeader: true,
+                  headerBuilder: (BuildContext context, bool isExpanded) {
+                    return ListTile(
+                      title: Text(body!),
+                    );
+                  },
+                  body: ListTile(
+                    title: Text(hasil!),
+                  ),
+                ),
+              ],
             ),
-            Text(hasil!),
           ],
         ));
   }
